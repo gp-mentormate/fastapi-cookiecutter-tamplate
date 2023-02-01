@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    db:
+        image: postgres:12
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    app:
+        build: .
+        command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+        env_file:
+            - .env
+        volumes:
+            - .:/code
+        ports:
+            - "8001:8001"
+        depends_on:
+            - db
+
+volumes:
+    postgres_data:
