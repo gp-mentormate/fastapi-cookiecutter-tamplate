@@ -1,1 +1,1 @@
-# Sample app
+# App

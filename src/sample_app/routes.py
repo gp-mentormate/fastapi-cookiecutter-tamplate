@@ -1,7 +1,7 @@
 import logging
 from fastapi import APIRouter 
 
-from sample_app.schemas import SampleSchema
+from .schemas import SampleSchema
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix='/sample_app', tags=["Sample App"])

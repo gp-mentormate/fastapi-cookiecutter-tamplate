@@ -1,8 +1,9 @@
-version: '3'
+version: "3.9"
 
 services:
     db:
-        image: postgres:12
+        image: postgres:15-alpine
+        restart: unless-stopped
         volumes:
             - postgres_data:/var/lib/postgresql/data
         environment:
@@ -11,15 +12,16 @@ services:
             - POSTGRES_PASSWORD=postgres
     app:
         build: .
-        command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
         env_file:
             - .env
         volumes:
-            - .:/code
+            - .:/var/www/app
         ports:
-            - "8001:8001"
+            - "8000:8000"
         depends_on:
             - db
+        stdin_open: true
+        tty: true
 
 volumes:
     postgres_data:

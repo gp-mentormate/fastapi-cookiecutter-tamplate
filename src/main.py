@@ -2,8 +2,8 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from sample_app.routes import router as sample_app_router
-from database import db
+from .sample_app.routes import router as sample_app_router
+from .database import db
 
 app = FastAPI(title="Sample app")
 
