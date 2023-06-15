@@ -1,18 +1,15 @@
 from functools import lru_cache
-from os import getenv
 
-from dotenv import load_dotenv
+from decouple import config
 from pydantic import BaseSettings
-
-load_dotenv()
 
 
 class Settings(BaseSettings):
-    db_user: str = getenv('DB_USER')
-    db_password: str = getenv('DB_PASSWORD')
-    db_name: str = getenv('DB_NAME')
-    db_host: str = getenv('DB_HOST')
-    db_port: int = getenv('DB_PORT')
+    db_user: str = config('DB_USER', cast=str)
+    db_password: str = config('DB_PASSWORD', cast=str)
+    db_name: str = config('DB_NAME', cast=str)
+    db_host: str = config('DB_HOST', cast=str)
+    db_port: int = config('DB_PORT', cast=int)
 
     @property
     def db_config(self) -> str:
