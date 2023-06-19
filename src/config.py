@@ -14,8 +14,8 @@ class DatabaseSettings(BaseSettings):
     @property
     def db_connection_url(self) -> str:
         if config("FASTAPI_TEST", cast=bool, default=False):
-            return "sqlite://file::memory:?cache=shared"
-        return f"postgresql://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
+            return "sqlite+aiosqlite://?cache=shared"
+        return f"postgresql+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
 
 
 class CacheSettings(BaseSettings):
