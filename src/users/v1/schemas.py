@@ -13,3 +13,7 @@ class UserCreateIn(BaseUser):
 
 class UserCreateOut(BaseUser):
     id: UUID
+
+    class Config:
+        orm_mode = True
+

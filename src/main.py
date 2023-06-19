@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from decouple import config
@@ -5,6 +6,8 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from .routers import routers
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title=config("APP_NAME", cast=str, default="FastAPI"),

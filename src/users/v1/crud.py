@@ -14,9 +14,9 @@ class UserCRUD:
     async def create_user(email: EmailStr, password: str):
         async with session() as db:
             stmt = insert(User).values(email=email, password=password)
-            await db.execute(stmt)
-            result = await db.commit()
-            return result
+            result = await db.execute(stmt)
+            await db.commit()
+            return result.inserted_primary_key[0]
 
     # Retrieve methods
     @staticmethod
@@ -31,7 +31,7 @@ class UserCRUD:
         async with session() as db:
             statement = select(User).where(User.id == user_id)
             result = await db.execute(statement)
-            return result.scalars().all()
+            return result.scalars().first()
 
     @staticmethod
     async def get_users_by_email(email: EmailStr):
