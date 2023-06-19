@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 from src.config import get_settings
 from src.database import Base
+from src.users import models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -28,7 +29,7 @@ target_metadata = [
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-config.set_main_option('sqlalchemy.url', get_settings().db_config)
+config.set_main_option('sqlalchemy.url', get_settings().db_connection_url)
 
 
 def run_migrations_offline() -> None:
