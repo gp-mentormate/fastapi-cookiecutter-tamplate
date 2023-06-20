@@ -9,12 +9,12 @@ from src.users.v1.schemas import UserCreateIn, UserCreateOut
 from src.users.v1.service import UserService
 
 router = APIRouter(
-    prefix="/api/v1/users",
+    prefix="/api/v1",
     tags=["users"]
 )
 
 
-@router.get("/", response_model=List[UserCreateOut])
+@router.get("/users", response_model=List[UserCreateOut])
 async def get_users(
         user_id: Optional[UUID] = None,
         users: UserCRUD = Depends(get_users_crud)
@@ -25,7 +25,7 @@ async def get_users(
     return await users.get_all_users()
 
 
-@router.post("/", response_model=UserCreateOut)
+@router.post("/users", response_model=UserCreateOut)
 async def create_user(
         user_data: UserCreateIn,
         user_service: UserService = Depends(get_users_service)
