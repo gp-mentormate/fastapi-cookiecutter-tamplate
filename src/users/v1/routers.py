@@ -7,7 +7,10 @@ from src.users.v1.crud import UserCRUD
 from src.users.v1.schemas import UserCreateIn, UserCreateOut
 from src.users.v1.service import UserService
 
-router = APIRouter(prefix="/api/v1/users")
+router = APIRouter(
+    prefix="/api/v1/users",
+    tags=["users"]
+)
 
 
 @router.get("/", response_model=List[UserCreateOut])
