@@ -1,19 +1,19 @@
+from typing import Any
 from uuid import UUID
 
 from pydantic import EmailStr
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, ResultProxy, CursorResult, Result
 
 from src.users.v1.models import User
-from src.utils import DBSessionMixin
+from src.utils import SQLAlchemySessionMixin
 
 
-class UserCRUD(DBSessionMixin):
+class UserCRUD(SQLAlchemySessionMixin):
 
     # Create methods
     async def create_user(self, email: EmailStr, password: str):
-        stmt = insert(User).values(email=email, password=password)
+        stmt = (insert(User).values(email=email, password=password))
         result = await self.session.execute(stmt)
-        await self.session.commit()
         return result.inserted_primary_key[0]
 
     # Retrieve methods

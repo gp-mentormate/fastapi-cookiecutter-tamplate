@@ -4,7 +4,6 @@ from pydantic import EmailStr
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.database import async_session
 from src.logger import logger
 from src.security import get_password_hash
 from src.users.v1.crud import UserCRUD
@@ -13,10 +12,10 @@ from src.users.v1.exceptions import (
     SomethingWentWrongException
 )
 from src.users.v1.models import User
-from src.utils import DBSessionMixin
+from src.utils import SQLAlchemySessionMixin
 
 
-class UserService(DBSessionMixin):
+class UserService(SQLAlchemySessionMixin):
 
     def __init__(self, session: AsyncSession):
         super().__init__(session)
@@ -30,9 +29,10 @@ class UserService(DBSessionMixin):
         # Insert the user in the database
         try:
             user_id: UUID = await self.users.create_user(email, password_hash)
+            await self.commit()
         except SQLAlchemyError as e:
             logger.error(e)
-
+            await self.rollback()
             raise UserNotCreatedException()
 
         logger.info(f"User with id {user_id} was created successfully.")
@@ -42,7 +42,7 @@ class UserService(DBSessionMixin):
             user: User = await self.users.get_user_by_id(user_id)
         except SQLAlchemyError as e:
             logger.error(e)
-
+            await self.rollback()
             raise SomethingWentWrongException()
 
         # Sent email for the successful registration to the user
