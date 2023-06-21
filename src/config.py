@@ -46,7 +46,7 @@ class Settings(
     CacheSettings,
     JWTSettings
 ):
-    pass
+    debug_mode: bool = config("DEBUG", cast=bool, default=False)
 
 
 @lru_cache

@@ -2,14 +2,14 @@ from sqlalchemy.ext.asyncio import create_async_engine, \
     async_sessionmaker, AsyncSession
 from sqlalchemy.orm import declarative_base
 
-from .config import DatabaseSettings
+from .config import Settings
 
 Base = declarative_base()
 
-settings = DatabaseSettings()
+settings = Settings()
 
 async_engine = create_async_engine(
-    settings.db_connection_url, future=True
+    settings.db_connection_url, future=True, echo=settings.debug_mode
 )
 
 async_session = async_sessionmaker(async_engine)
