@@ -1,7 +1,8 @@
 # Makefile
 
 PROJECT_DIR := $(shell pwd)
-CACHE_DIRS := $(shell find $(PROJECT_DIR) -type d -name "cache" -o -name "__pycache__" -o -name ".pytest_cache")
+CACHE_DIRS := $(shell find $(PROJECT_DIR) -type d -name "cache" \
+	-o -name "__pycache__" -o -name ".pytest_cache" -o -name "htmlcov")
 
 # Load environment variables from .env file
 include .env
@@ -22,6 +23,11 @@ server:
 # Run all tests
 test:
 	@FASTAPI_TEST=true pytest .
+
+# Run test coverage and open it as HTML report
+coverage:
+	@FASTAPI_TEST=true coverage run -m pytest .
+	@coverage html && open htmlcov/index.html
 
 # Create a standalone docker container with postgres
 database:
