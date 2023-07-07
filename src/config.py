@@ -11,12 +11,6 @@ class DatabaseSettings(BaseSettings):
     db_host: str = config('DB_HOST', cast=str)
     db_port: conint(ge=1, le=65535) = config('DB_PORT', cast=int)
 
-    test_db_user: str = config('TEST_DB_USER', cast=str)
-    test_db_password: str = config('TEST_DB_PASSWORD', cast=str)
-    test_db_name: str = config('TEST_DB_NAME', cast=str)
-    test_db_host: str = config('TEST_DB_HOST', cast=str)
-    test_db_port: conint(ge=1, le=65535) = config('TEST_DB_PORT', cast=int)
-
     @property
     def db_connection_url(self) -> str:
         if config("FASTAPI_TEST", cast=bool, default=False):
