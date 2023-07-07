@@ -15,18 +15,27 @@ clean:
 		rm -rf $$dir; \
 	done
 
-# Apply the last alembic migrations
-migrate:
-	@alembic upgrade head
-
 # Run application server
 server:
 	@hypercorn src.main:app --reload --bind 0.0.0.0:8000
 
 # Run all tests
 test:
-	@pytest .
+	@FASTAPI_TEST=true pytest .
 
 # Create a standalone docker container with postgres
 database:
 	@docker run --rm --name fastapi-db -e POSTGRES_PASSWORD=$(DB_PASSWORD) -e POSTGRES_USER=$(DB_USER) -e POSTGRES_DB=$(DB_NAME) -d -p $(DB_PORT):5432 postgres:14
+
+# Create migration
+migration:
+	@if [ -z "$(m)" ]; then \
+		echo "Please provide a migration message using 'make migration m=\"MESSAGE\"'"; \
+	else \
+		echo "Making migration with message: $(m)"; \
+		alembic revision --autogenerate -m "$(m)"; \
+	fi
+
+# Apply the last alembic migrations
+migrate:
+	@alembic upgrade head
