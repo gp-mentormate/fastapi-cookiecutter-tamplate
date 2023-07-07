@@ -20,7 +20,7 @@ class DatabaseSettings(BaseSettings):
     @property
     def db_connection_url(self) -> str:
         if config("FASTAPI_TEST", cast=bool, default=False):
-            return f"postgresql+asyncpg://{self.test_db_user}:{self.test_db_password}@{self.test_db_host}:{self.test_db_port}/{self.test_db_name}"
+            return "sqlite+aiosqlite:///:memory:"
         return f"postgresql+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
 
 
