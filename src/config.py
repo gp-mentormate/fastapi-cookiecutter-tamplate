@@ -32,7 +32,9 @@ class CacheSettings(BaseSettings):
 
 
 class JWTSettings(BaseSettings):
-    pass
+    secret = config("SECRET_KEY", cast=str)
+    algorithm = config("JWT_ALGORITHM", cast=str)
+    life_time = config("JWT_ACCESS_TOKEN_LIFETIME_MINUTES", cast=str)
 
 
 class Settings(
