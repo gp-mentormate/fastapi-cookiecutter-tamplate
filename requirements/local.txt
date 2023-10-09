@@ -1,5 +1,7 @@
 -r base.txt
 
+psycopg2==2.9.9
+
 # development tools
 ipdb==0.13.13
 
